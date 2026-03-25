@@ -52,8 +52,8 @@ def get_ROC_data(y_true,y_score):
     y_true,y_score=sortyy(y_true,y_score)
     TPR=[]
     FPR=[]
-    th=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-    for i in y_score:
+    th=[1,0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1]
+    for i in th:
         Matrix=calculate_Confusion_Matrix(y_true, y_score,i)
         TPR.append(calculate_Recall(y_true, y_score,i,Matrix))
         FPR.append(calculate_FPR(y_true, y_score,i,Matrix))
@@ -78,6 +78,8 @@ def draw_ROC(y_true,y_score):
 
 #计算auc
 def calculate_auc(X,Y):
+    print(X)
+    print(Y)
     ans=0
     for i in range(1,len(X)):
         ans+=0.5*(X[i]-X[i-1])*(Y[i]+Y[i-1])
@@ -87,16 +89,34 @@ def calculate_auc(X,Y):
 def draw_ROC_by_sklearn_learn(y_true,y_score):
     fpr,tpr,th=roc_curve(y_true,y_score)
     plt.plot(fpr, tpr, 'g--', lw=2)
+    print("sklearn")
+    print(auc(fpr,tpr))
 
 
 
 if __name__ =="__main__":
     y_true=[1,1,0,1,0,0,1,0,0,0]
     y_score=[0.90,0.42,0.2,0.6,0.5,0.41,0.7,0.4,0.65,0.35]
+    #y_true=[1,1,1,1,1,1,1,1,1,0]
+    #y_score=[0.9,0.8,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1]
     plt.figure(figsize=(5,5))
     draw_ROC(y_true,y_score)
     draw_ROC_by_sklearn_learn(y_true,y_score)
 
+
+'''
+1.自己写的 ROC 曲线
+使用固定阈值（0.1 ~ 1）
+点比较少（只有 10 个）
+曲线不平滑
+AUC 是你自己用梯形法算的
+2. sklearn 的 ROC 曲线
+使用所有可能的阈值（由数据自动生成）
+点很多（通常 = 样本数）
+曲线平滑、标准
+AUC 是官方函数计算的
+
+'''
 
 
 
