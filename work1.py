@@ -46,7 +46,7 @@ def sortyy(b,a):
             if a[j-1]<a[j]:
                 a[j-1],a[j]=a[j],a[j-1]
                 b[j-1],b[j]=b[j],b[j-1]
-    return b,a;
+    return b,a
 #得到数据
 def get_ROC_data(y_true,y_score):
     y_true,y_score=sortyy(y_true,y_score)
